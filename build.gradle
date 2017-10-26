@@ -1,0 +1,25 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.1.51"
+    id 'com.github.johnrengelman.shadow' version '2.0.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+group 'com.mojain.zd-search'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit"
+}
+
+jar {
+    manifest {
+        attributes('Main-Class': 'com.mojain.zdsearch.MainKt')
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
