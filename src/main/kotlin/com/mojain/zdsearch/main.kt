@@ -3,7 +3,7 @@ package com.mojain.zdsearch
 fun main(args: Array<String>) {
     val cli = CLI()
 
-    val repositories = arrayOf(Users(), Organisations(), Tickets())
+    val repositories = arrayOf(Users("/users.json"), Organisations("/organizations.json"), Tickets("/tickets.json"))
 
     cli.welcome()
     var running = true
@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
         when (cli.acceptCommand()) {
             is Quit -> running = false
             is Help -> cli.welcome()
-            is Fields -> repositories.map { r -> cli.fields(r.name(), r.fields()) }
+            is Fields -> repositories.forEach { r -> cli.fields(r.name(), r.fields()) }
         }
     }
     cli.goodbye()

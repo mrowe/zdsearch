@@ -12,6 +12,8 @@ version '1.0-SNAPSHOT'
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.0"
 
     testCompile "org.jetbrains.kotlin:kotlin-test"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit"

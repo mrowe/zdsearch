@@ -1,34 +1,38 @@
 package com.mojain.zdsearch
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+
 /**
  * A Repository
  */
-interface Repository {
-    fun name(): String {
+abstract class Repository(resource: String) {
+    private val data: String = this.javaClass.getResource(resource).readText()
+    private val mapper : ObjectMapper = jacksonObjectMapper()
+
+    open fun name(): String {
         return this.javaClass.toString()
     }
-    fun fields(): Array<String> {
-        return arrayOf("_id")
+    open fun fields(): Sequence<String> {
+        return deriveFields()
     }
-    fun getById(id: String): String {
+    open fun getById(id: String): String {
         return ""
+    }
+
+    private fun deriveFields(): Sequence<String> {
+        return mapper.readTree(data).first().fields().asSequence().map { entry -> entry.key }
     }
 }
 
-class Users : Repository {
+class Users(resource: String) : Repository(resource) {
     override fun name(): String { return "Users" }
-    override fun fields(): Array<String> {
-        return arrayOf("_id", "name", "phone")
-    }
-    override fun getById(id: String): String {
-        return ""
-    }
 }
 
-class Organisations : Repository {
+class Organisations(resource: String) : Repository(resource) {
     override fun name(): String { return "Organisations" }
 }
 
-class Tickets : Repository {
+class Tickets(resource: String) : Repository(resource) {
     override fun name(): String { return "Tickets" }
 }
