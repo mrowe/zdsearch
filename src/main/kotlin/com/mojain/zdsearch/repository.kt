@@ -3,7 +3,6 @@ package com.mojain.zdsearch
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
-import com.beust.klaxon.string
 
 /**
  * A repository of data. <name> is assumed to be the base name
@@ -33,6 +32,6 @@ class Repository(resource: String) {
     }
 
     fun search(field: String, value: String): List<String> {
-        return tree.filter { it.string(field) == value }.map { it.toJsonString(true) }
+        return tree.filter { it.getValue(field).toString() == value }.map { it.toJsonString(true) }
     }
 }
