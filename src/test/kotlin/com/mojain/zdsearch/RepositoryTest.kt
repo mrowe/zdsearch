@@ -44,14 +44,25 @@ class RepositoryTest {
         assertTrue(users.fields().none())
     }
 
-    @Test fun `should get all data for a ticket by id`() {
-        val ticket = tickets.getById("2217c7dc-7371-4401-8738-0a8a8aedc08d")
-        assertTrue(ticket.startsWith("""{"_id":"2217c7dc-7371-4401-8738-0a8a8aedc08d","""))
+    @Test fun `should find users belonging to an organisation`() {
+        val results = users.search("organization_id", "119")
+        assertTrue(results.first().startsWith("""{
+            |  "_id": 1,""".trimMargin()))
+    }
+
+    @Test fun `should find all active users`() {
+        val results = users.search("active", "true")
+        assertEquals(2, results.size)
     }
 
     @Test fun `should find ticket when searching by subject`() {
         val results = tickets.search("subject", "A Catastrophe in Hungary")
         assertTrue(results.first().startsWith("""{
             |  "_id": "2217c7dc-7371-4401-8738-0a8a8aedc08d",""".trimMargin()))
+    }
+
+    @Test fun `should find all tickets with solved status`() {
+        val results = tickets.search("status", "solved")
+        assertEquals(2, results.size)
     }
 }

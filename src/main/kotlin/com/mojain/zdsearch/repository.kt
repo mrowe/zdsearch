@@ -32,10 +32,6 @@ class Repository(resource: String) {
         }
     }
 
-    fun getById(id: String): String {
-        return tree.first { it.string("_id") == id }.toJsonString()
-    }
-
     fun search(field: String, value: String): List<String> {
         return tree.filter { it.string(field) == value }.map { it.toJsonString(true) }
     }
