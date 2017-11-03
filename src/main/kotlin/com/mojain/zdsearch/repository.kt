@@ -27,14 +27,6 @@ abstract class Repository(resource: String) {
     }
 
     open fun fields(): Sequence<String> {
-        return deriveFields()
-    }
-
-    fun getById(id: String): String {
-        return ""
-    }
-
-    private fun deriveFields(): Sequence<String> {
         val tree = mapper.readTree(data)
         return when {
             tree.none() -> emptySequence()
@@ -42,6 +34,11 @@ abstract class Repository(resource: String) {
             else -> tree.first().fields().asSequence().map { entry -> entry.key }
         }
     }
+
+    fun getById(id: String): String {
+        return ""
+    }
+
 }
 
 class Users(resource: String) : Repository(resource) {
