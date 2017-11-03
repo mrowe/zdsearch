@@ -22,7 +22,7 @@ Type 'help' to repeat these instructions.
     fun acceptCommand(): Command {
         print("> ")
         val input = readLine()
-        return Parser().parse(input ?: "")
+        return CommandParser().parse(input ?: "")
     }
 
     fun goodbye() {
@@ -35,7 +35,7 @@ Type 'help' to repeat these instructions.
     }
 }
 
-class Parser {
+class CommandParser {
     private operator fun Regex.contains(text: CharSequence): Boolean = this.matches(text)
 
     fun parse(s: String): Command {
