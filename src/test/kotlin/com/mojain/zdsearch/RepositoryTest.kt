@@ -1,7 +1,6 @@
 package com.mojain.zdsearch
 
 import org.junit.Test
-
 import org.junit.Assert.*
 import org.junit.Before
 
@@ -32,5 +31,15 @@ class RepositoryTest {
 
     @Test fun `tickets should have a subject field`() {
         assertTrue(tickets.fields().contains("subject"))
+    }
+
+    @Test fun `should gracefully handle a missing file`() {
+        Users("/not-there.json")
+    }
+
+    @Test fun `should gracefully handle an empty file`() {
+        val users = Users("/empty-users.json")
+        assertEquals("Users", users.name())
+        assertTrue(users.fields().none())
     }
 }
