@@ -3,7 +3,11 @@ package com.mojain.zdsearch
 fun main(args: Array<String>) {
     val cli = CLI()
 
-    val repositories = arrayOf(Users("/users.json"), Organisations("/organizations.json"), Tickets("/tickets.json"))
+    val repositories = arrayOf(
+            Users("/users.json"),
+            Organisations("/organizations.json"),
+            Tickets("/tickets.json")
+    )
 
     cli.welcome()
     var running = true
