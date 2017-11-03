@@ -1,24 +1,20 @@
 package com.mojain.zdsearch
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.beust.klaxon.JsonArray
+import com.beust.klaxon.JsonObject
+import com.beust.klaxon.Parser
+import com.beust.klaxon.string
 
 /**
  * A Repository
  */
 abstract class Repository(resource: String) {
-    private val data: String
-    private val mapper: ObjectMapper
-
-    init {
-        mapper = jacksonObjectMapper()
-    }
-
+    private val tree: JsonArray<JsonObject>
     init {
         val content = this.javaClass.getResource(resource)
-        data = when (content) {
-            null -> ""
-            else -> content.readText()
+        tree = when (content) {
+            null -> JsonArray()
+            else -> parse(resource) as JsonArray<JsonObject>
         }
     }
 
@@ -27,11 +23,10 @@ abstract class Repository(resource: String) {
     }
 
     open fun fields(): Sequence<String> {
-        val tree = mapper.readTree(data)
         return when {
             tree.none() -> emptySequence()
             // assumes that the first record in the file is representative
-            else -> tree.first().fields().asSequence().map { entry -> entry.key }
+            else -> tree.first().keys.asSequence()
         }
     }
 
@@ -39,6 +34,11 @@ abstract class Repository(resource: String) {
         return ""
     }
 
+    private fun parse(path: String): Any? {
+        return this.javaClass.getResourceAsStream(path)?.let {inputStream ->
+            return Parser().parse(inputStream)
+        }
+    }
 }
 
 class Users(resource: String) : Repository(resource) {
