@@ -42,4 +42,9 @@ class RepositoryTest {
         assertEquals("Users", users.name())
         assertTrue(users.fields().none())
     }
+
+    @Test fun `should get all data for a ticket by id`() {
+        val ticket = tickets.getById("2217c7dc-7371-4401-8738-0a8a8aedc08d")
+        assertTrue(ticket.startsWith("""{"_id":"2217c7dc-7371-4401-8738-0a8a8aedc08d","""))
+    }
 }

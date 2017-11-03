@@ -31,7 +31,7 @@ abstract class Repository(resource: String) {
     }
 
     fun getById(id: String): String {
-        return ""
+        return tree.first { it.string("_id") == id }.toJsonString()
     }
 
     private fun parse(path: String): Any? {
