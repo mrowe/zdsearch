@@ -15,7 +15,7 @@ You can search for data by entering commands in the form:
     > search <repository> <fieldname> <value>
 
 e.g.
-    > search Users alias "Miss Joni"
+    > search users alias "Miss Joni"
 
 Note that if <value> contains spaces it must be enclosed in double quotes.
 

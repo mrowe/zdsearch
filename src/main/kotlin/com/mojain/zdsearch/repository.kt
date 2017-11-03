@@ -6,24 +6,25 @@ import com.beust.klaxon.Parser
 import com.beust.klaxon.string
 
 /**
- * A Repository
+ * A repository of data. <name> is assumed to be the base name
+ * of a json file that is loadable as a system resource, and has
+ * the extension ".json".
  */
-abstract class Repository(resource: String) {
+class Repository(resource: String) {
     private val tree: JsonArray<JsonObject>
+    val name: String = resource
+
     init {
-        tree = when (javaClass.getResource(resource)) {
+        val path = "/$resource.json"
+        tree = when (javaClass.getResource(path)) {
             null -> JsonArray()
-            else -> this.javaClass.getResourceAsStream(resource)?.let {
+            else -> this.javaClass.getResourceAsStream(path)?.let {
                 stream -> Parser().parse(stream)
             } as JsonArray<JsonObject>
         }
     }
 
-    open fun name(): String {
-        return javaClass.toString()
-    }
-
-    open fun fields(): Sequence<String> {
+    fun fields(): Sequence<String> {
         return when {
             tree.none() -> emptySequence()
             // assumes that the first record in the file is representative
@@ -38,16 +39,4 @@ abstract class Repository(resource: String) {
     fun search(field: String, value: String): List<String> {
         return tree.filter { it.string(field) == value }.map { it.toJsonString(true) }
     }
-}
-
-class Users(resource: String) : Repository(resource) {
-    override fun name(): String { return "Users" }
-}
-
-class Organisations(resource: String) : Repository(resource) {
-    override fun name(): String { return "Organisations" }
-}
-
-class Tickets(resource: String) : Repository(resource) {
-    override fun name(): String { return "Tickets" }
 }

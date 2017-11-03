@@ -10,15 +10,15 @@ class RepositoryTest {
     private lateinit var tickets: Repository
 
     @Before fun setup() {
-        users = Users("/users.json")
-        organisations = Organisations("/organizations.json")
-        tickets = Tickets("/tickets.json")
+        users = Repository("users")
+        organisations = Repository("organizations")
+        tickets = Repository("tickets")
     }
 
     @Test fun `should return name of repository`() {
-        assertEquals("Users", users.name())
-        assertEquals("Organisations", organisations.name())
-        assertEquals("Tickets", tickets.name())
+        assertEquals("users", users.name)
+        assertEquals("organizations", organisations.name)
+        assertEquals("tickets", tickets.name)
     }
 
     @Test fun `users should have a name field`() {
@@ -34,12 +34,13 @@ class RepositoryTest {
     }
 
     @Test fun `should gracefully handle a missing file`() {
-        Users("/not-there.json")
+        val repo = Repository("not-there")
+        assertTrue(repo.fields().none())
     }
 
     @Test fun `should gracefully handle an empty file`() {
-        val users = Users("/empty-users.json")
-        assertEquals("Users", users.name())
+        val users = Repository("empty-users")
+        assertEquals("empty-users", users.name)
         assertTrue(users.fields().none())
     }
 
