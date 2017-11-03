@@ -11,10 +11,11 @@ import com.beust.klaxon.string
 abstract class Repository(resource: String) {
     private val tree: JsonArray<JsonObject>
     init {
-        val content = this.javaClass.getResource(resource)
-        tree = when (content) {
+        tree = when (javaClass.getResource(resource)) {
             null -> JsonArray()
-            else -> parse(resource) as JsonArray<JsonObject>
+            else -> this.javaClass.getResourceAsStream(resource)?.let {
+                stream -> Parser().parse(stream)
+            } as JsonArray<JsonObject>
         }
     }
 
@@ -34,14 +35,8 @@ abstract class Repository(resource: String) {
         return tree.first { it.string("_id") == id }.toJsonString()
     }
 
-    fun search(field: String, value: String): String {
-        return tree.first { it.string(field) == value }.toJsonString()
-    }
-
-    private fun parse(path: String): Any? {
-        return this.javaClass.getResourceAsStream(path)?.let {inputStream ->
-            return Parser().parse(inputStream)
-        }
+    fun search(field: String, value: String): List<String> {
+        return tree.filter { it.string(field) == value }.map { it.toJsonString(true) }
     }
 }
 

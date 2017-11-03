@@ -2,6 +2,7 @@ package com.mojain.zdsearch
 
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class CLIParserTest {
 
@@ -22,4 +23,20 @@ class CLIParserTest {
         assertTrue(CommandParser().parse("") is Help)
     }
 
+    @Test fun `should parse a search command`() {
+        val command = CommandParser().parse("search")
+        assertTrue(command is Search)
+    }
+
+    @Test fun `should parse a search command's arguments`() {
+        val search = CommandParser().parse("search Tickets subject Hungary") as Search
+        assertEquals("Tickets", search.repository)
+        assertEquals("subject", search.field)
+        assertEquals("Hungary", search.value)
+    }
+
+    @Test fun `should parse a search command with quotes around value`() {
+        val search = CommandParser().parse("search Tickets subject \"A Catastrophe in Hungary\"") as Search
+        assertEquals("A Catastrophe in Hungary", search.value)
+    }
 }
