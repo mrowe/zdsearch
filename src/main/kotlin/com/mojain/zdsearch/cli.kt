@@ -29,7 +29,7 @@ Type 'help' to repeat these instructions.
         println("Thanks for using zd-search!")
     }
 
-    fun fields(repo: String, fields: Sequence<String>) {
+    fun displayFields(repo: String, fields: Sequence<String>) {
         println("========== Searchable fields in $repo ==========")
         println(fields.joinToString(", "))
     }

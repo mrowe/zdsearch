@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
         when (cli.acceptCommand()) {
             is Quit -> running = false
             is Help -> cli.welcome()
-            is Fields -> repositories.forEach { r -> cli.fields(r.name(), r.fields()) }
+            is Fields -> repositories.forEach { r -> cli.displayFields(r.name(), r.fields()) }
         }
     }
     cli.goodbye()
