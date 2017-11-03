@@ -34,6 +34,10 @@ abstract class Repository(resource: String) {
         return tree.first { it.string("_id") == id }.toJsonString()
     }
 
+    fun search(field: String, value: String): String {
+        return tree.first { it.string(field) == value }.toJsonString()
+    }
+
     private fun parse(path: String): Any? {
         return this.javaClass.getResourceAsStream(path)?.let {inputStream ->
             return Parser().parse(inputStream)

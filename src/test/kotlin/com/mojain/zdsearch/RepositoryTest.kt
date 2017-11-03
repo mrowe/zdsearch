@@ -47,4 +47,9 @@ class RepositoryTest {
         val ticket = tickets.getById("2217c7dc-7371-4401-8738-0a8a8aedc08d")
         assertTrue(ticket.startsWith("""{"_id":"2217c7dc-7371-4401-8738-0a8a8aedc08d","""))
     }
+
+    @Test fun `should find ticket when searching by subject`() {
+        val ticket = tickets.search("subject", "A Catastrophe in Hungary")
+        assertTrue(ticket.startsWith("""{"_id":"2217c7dc-7371-4401-8738-0a8a8aedc08d","""))
+    }
 }
