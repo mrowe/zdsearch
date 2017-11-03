@@ -23,12 +23,14 @@ abstract class Repository(resource: String) {
     }
 
     open fun name(): String {
-        return this.javaClass.toString()
+        return javaClass.toString()
     }
+
     open fun fields(): Sequence<String> {
         return deriveFields()
     }
-    open fun getById(id: String): String {
+
+    fun getById(id: String): String {
         return ""
     }
 
