@@ -32,6 +32,8 @@ class Repository(resource: String) {
     }
 
     fun search(field: String, value: String): List<String> {
-        return tree.filter { it.getValue(field).toString() == value }.map { it.toJsonString(true) }
+        return tree
+                .filter { it.getOrDefault(field, "").toString() == value }
+                .map { it.toJsonString(true) }
     }
 }

@@ -39,4 +39,9 @@ class CLIParserTest {
         val search = CommandParser().parse("search Tickets subject \"A Catastrophe in Hungary\"") as Search
         assertEquals("A Catastrophe in Hungary", search.value)
     }
+
+    @Test fun `should parse a search command with an empty quoted value`() {
+        val search = CommandParser().parse("search Tickets description \"\"") as Search
+        assertEquals("", search.value)
+    }
 }

@@ -65,4 +65,14 @@ class RepositoryTest {
         val results = tickets.search("status", "solved")
         assertEquals(2, results.size)
     }
+
+    @Test fun `should find tickets with empty or missing description`() {
+        val results = tickets.search("description", "")
+        assertEquals(2, results.size)
+        // relying on order is probably optimistic
+        assertTrue(results.first().startsWith("""{
+            |  "_id": "4cce7415-ef12-42b6-b7b5-fb00e24f9cc1",""".trimMargin()))
+        assertTrue(results.get(1).startsWith("""{
+            |  "_id": "50dfc8bc-31de-411e-92bf-a6d6b9dfa491",""".trimMargin()))
+    }
 }
