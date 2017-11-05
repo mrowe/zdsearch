@@ -61,7 +61,7 @@ class CommandParser {
     }
 
     private fun parseSearch(s: String): Search {
-        val match = "^search (\\w+) (\\w+) \"?([^\"]+)\"?$".toRegex().matchEntire(s)
+        val match = "^search (\\w+) (\\w+) \"?([^\"]*)\"?$".toRegex().matchEntire(s)
         return when (match) {
             null -> Search("","","")
             else -> {

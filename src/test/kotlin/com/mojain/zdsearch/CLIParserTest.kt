@@ -42,6 +42,7 @@ class CLIParserTest {
 
     @Test fun `should parse a search command with an empty quoted value`() {
         val search = CommandParser().parse("search Tickets description \"\"") as Search
+        assertEquals("description", search.field)
         assertEquals("", search.value)
     }
 }
