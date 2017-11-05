@@ -29,5 +29,5 @@ $ gradle jar
 First build a JAR (as above). Then invoke it:
 
 ```
-$ java -jar build/libs/zd-search-1.0-SNAPSHOT.jar
+$ java -jar build/libs/zdsearch-1.0-SNAPSHOT.jar
 ```
