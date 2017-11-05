@@ -34,8 +34,7 @@ class RepositoryTest {
     }
 
     @Test fun `should gracefully handle a missing file`() {
-        val repo = Repository("not-there")
-        assertTrue(repo.fields().none())
+        assertTrue(Repository("not-there").fields().none())
     }
 
     @Test fun `should gracefully handle an empty file`() {
